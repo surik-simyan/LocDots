@@ -1,46 +1,61 @@
 package surik.simyan.locdots
 
 import Dot
-import SERVER_PORT
+import com.mongodb.kotlin.client.coroutine.MongoClient
+import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.application.install
+import io.ktor.server.netty.EngineMain
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.format
-import kotlinx.datetime.toLocalDateTime
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.routing
+import org.koin.ktor.ext.inject
+import org.koin.ktor.plugin.Koin
+import org.koin.logger.slf4jLogger
 
-fun main() {
-    embeddedServer(Netty, port = SERVER_PORT, host = "0.0.0.0") {
-        install(ContentNegotiation) {
-            json()
-        }
-        module()
-    }.start(wait = true)
-}
+
+fun main(args: Array<String>): Unit = EngineMain.main(args)
 
 fun Application.module() {
-    routing {
-        get("/dots") {
-            val dots = mutableListOf<Dot>()
-            for (i in 0..15) {
-                dots.add(
-                    Dot(
-                        id = i,
-                        date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                            .format(LocalDateTime.Formats.ISO),
-                        lat = 49.193240,
-                        lon = -0.343040,
-                        message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer fringilla lorem ac lectus porta, sed tincidunt eros varius. Aliquam eu feugiat velit. Aliquam semper, mauris sagittis ultrices accumsan, nibh magna fermentum neque, et auctor mauris nisi id lorem. Maecenas mollis at leo id pellentesque. Nunc ut molestie leo. Morbi ac diam tortor. Suspendisse tempor magna a lorem sodales faucibus. "
-                    )
+    val repository by inject<DotsRepository>()
+    install(ContentNegotiation) {
+        json()
+    }
+    install(Koin) {
+        slf4jLogger()
+        modules(org.koin.dsl.module {
+            single {
+                MongoClient.create(
+                    environment.config.propertyOrNull("ktor.mongo.uri")?.getString()
+                        ?: throw RuntimeException("Failed to access MongoDB URI.")
                 )
             }
+            single {
+                get<MongoClient>().getDatabase(
+                    environment.config.property("ktor.mongo.database").getString()
+                )
+            }
+        }, org.koin.dsl.module {
+            single<DotsRepository> { DotsRepositoryImpl(get()) }
+        })
+    }
+    routing {
+        get("/dots") {
+            val dots = repository.getAll()
             call.respond(dots)
+        }
+        post("/dots") {
+            val dot = call.receive<Dot>()
+            if (repository.insertOne(dot) != null) {
+                call.respond(HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.BadRequest, "Failed to insert dot.")
+            }
         }
     }
 }

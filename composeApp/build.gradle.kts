@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -50,6 +50,8 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.kotlinx.serialization)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.moko.permissions)
+            implementation(libs.moko.geo)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)

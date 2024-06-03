@@ -5,6 +5,11 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.http.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
@@ -24,5 +29,12 @@ class DotsApi {
 
     suspend fun getAllLaunches(): List<Dot> {
         return httpClient.get("https://tight-heroic-labrador.ngrok-free.app/dots").body()
+    }
+
+    suspend fun createNewDot(dot: Dot): HttpResponse {
+        return httpClient.post("https://tight-heroic-labrador.ngrok-free.app/dots") {
+            contentType(ContentType.Application.Json)
+            setBody(dot)
+        }
     }
 }

@@ -27,7 +27,7 @@ class HomeScreenViewModel(
         data class Success(val items: List<Dot>) : HomeScreenState()
     }
 
-    private fun getItems() {
+    fun getItems() {
         viewModelScope.launch {
             _dots.update { HomeScreenState.Loading }
             try {

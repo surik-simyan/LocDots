@@ -22,6 +22,9 @@ koinCompose = "3.6.0-alpha3"
 koinComposeMultiplatform = "1.2.0-alpha3"
 serialization = "1.7.0-RC"
 datetime = "0.6.0"
+mongodb = "5.1.0"
+moko-permissions = "0.18.0"
+moko-geo = "0.6.0"
 
 [libraries]
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
@@ -42,6 +45,8 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinComposeMultiplatform" }
+koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
+koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -53,6 +58,10 @@ ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negoti
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-server-data-conversion = { module = "io.ktor:ktor-server-data-conversion", version.ref = "ktor" }
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
+mongodb-bson = { module = "org.mongodb:bson-kotlinx", version.ref = "mongodb" }
+mongodb-driver-kotlin = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb" }
+moko-permissions = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
+moko-geo = { module = "dev.icerock.moko:geo-compose", version.ref = "moko-geo" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -1,6 +1,5 @@
 package ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -44,31 +44,46 @@ fun HomeScreen(navController: NavHostController) {
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
-    Scaffold(bottomBar = {
-        BottomAppBar(actions = {
-            IconButton(
-                onClick = {
-                    showBottomSheet = true
-                }, colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = Platinum
-                )
-            ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.Sort,
-                    contentDescription = "Localized description",
-                )
-            }
-        }, floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navController.navigate("create") },
-                containerColor = Platinum,
-                contentColor = EerieBlack
-            ) {
-                Icon(Icons.Filled.Edit, "Floating action button.")
-            }
-        }, containerColor = EerieBlack
-        )
-    }) { innerPadding ->
+    Scaffold(
+        bottomBar = {
+            BottomAppBar(actions = {
+                IconButton(
+                    onClick = {
+                        showBottomSheet = true
+                    }, colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Platinum
+                    )
+                ) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.Sort,
+                        contentDescription = "Localized description",
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        viewModel.getItems()
+                    }, colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = Platinum
+                    )
+                ) {
+                    Icon(
+                        Icons.Filled.Refresh,
+                        contentDescription = "Localized description",
+                    )
+                }
+            }, floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { navController.navigate("create") },
+                    containerColor = Platinum,
+                    contentColor = EerieBlack
+                ) {
+                    Icon(Icons.Filled.Edit, "Floating action button.")
+                }
+            }, containerColor = EerieBlack
+            )
+        },
+        containerColor = Gray
+    ) { innerPadding ->
 
         when (val result = dots) {
             HomeScreenViewModel.HomeScreenState.Idle -> Unit
@@ -79,7 +94,7 @@ fun HomeScreen(navController: NavHostController) {
 
             is HomeScreenViewModel.HomeScreenState.Success -> {
                 LazyColumn(
-                    modifier = Modifier.background(Gray).padding(innerPadding)
+                    modifier = Modifier.padding(innerPadding)
                 ) {
                     items(result.items) {
                         MessageCard(it)
