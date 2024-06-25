@@ -14,6 +14,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
+import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
@@ -24,7 +25,11 @@ fun main(args: Array<String>): Unit = EngineMain.main(args)
 fun Application.module() {
     val repository by inject<DotsRepository>()
     install(ContentNegotiation) {
-        json()
+        json(Json {
+            isLenient = true
+            ignoreUnknownKeys = true
+            useAlternativeNames = false
+        })
     }
     install(Koin) {
         slf4jLogger()
@@ -46,8 +51,14 @@ fun Application.module() {
     }
     routing {
         get("/dots") {
-            val dots = repository.getAll()
-            call.respond(dots)
+            val lat = call.request.queryParameters["lat"]?.toDouble()
+            val lng = call.request.queryParameters["lng"]?.toDouble()
+            if (lat != null && lng != null) {
+                val dots = repository.getAll(lat, lng)
+                call.respond(dots)
+            } else {
+                call.respond(HttpStatusCode.BadRequest, "Failed to retrieve current location.")
+            }
         }
         post("/dots") {
             val dot = call.receive<Dot>()

@@ -23,8 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,12 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.icerock.moko.permissions.PermissionsController
-import dev.icerock.moko.permissions.compose.BindEffect
-import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
-import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import koinViewModel
-import kotlinx.coroutines.CoroutineScope
 import ui.EerieBlack
 import ui.Gray
 import ui.Platinum
@@ -52,11 +45,6 @@ fun MessageScreen(navController: NavHostController) {
     val uploadState by viewModel.uploadState.collectAsState()
     val maxChar = 500
     var text by rememberSaveable { mutableStateOf("") }
-    val factory: PermissionsControllerFactory = rememberPermissionsControllerFactory()
-    val controller: PermissionsController =
-        remember(factory) { factory.createPermissionsController() }
-    val coroutineScope: CoroutineScope = rememberCoroutineScope()
-    BindEffect(controller)
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

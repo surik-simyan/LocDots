@@ -42,16 +42,16 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
+            implementation(projects.shared)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.navigation.compose)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.koin.compose)
+            api(libs.koin.core)
             implementation(libs.kotlinx.serialization)
             implementation(libs.kotlinx.datetime)
-            implementation(libs.moko.permissions)
-            implementation(libs.moko.geo)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -59,8 +59,9 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            api(libs.koin.core)
-            implementation(projects.shared)
+            implementation(libs.compass.geolocation)
+            implementation(libs.compass.geolocation.mobile)
+            implementation(libs.compass.permissions.mobile)
         }
     }
 }

@@ -13,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import ui.DavyGray
 import ui.Jet
@@ -39,11 +41,26 @@ fun MessageCard(dot: Dot) {
             )
             HorizontalDivider(thickness = 1.dp, color = Jet)
             Text(
-                text = dot.date,
+                text = getDateFromTimestamp(dot.timestamp),
                 modifier = Modifier.padding(16.dp),
                 color = Platinum,
                 textAlign = TextAlign.Start,
             )
         }
+    }
+}
+
+fun getDateFromTimestamp(timestamp: Long): String {
+    val now = Clock.System.now()
+    val past = Instant.fromEpochSeconds(timestamp)
+    val duration = now - past
+    return when {
+        duration.inWholeSeconds < 60 -> "was ${duration.inWholeSeconds} seconds ago"
+        duration.inWholeMinutes < 60 -> "was ${duration.inWholeMinutes} minutes ago"
+        duration.inWholeHours < 24 -> "was ${duration.inWholeHours} hours ago"
+        duration.inWholeDays < 7 -> "was ${duration.inWholeDays} days ago"
+        duration.inWholeDays < 30 -> "was ${duration.inWholeDays / 7} weeks ago"
+        duration.inWholeDays < 365 -> "was ${duration.inWholeDays / 30} months ago"
+        else -> "was ${duration.inWholeDays / 365} years ago"
     }
 }

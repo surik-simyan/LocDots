@@ -18,6 +18,7 @@ class DotsApi {
     private val httpClient = HttpClient {
         install(ContentNegotiation) {
             json(Json {
+                isLenient = true
                 ignoreUnknownKeys = true
                 useAlternativeNames = false
             })
@@ -27,8 +28,13 @@ class DotsApi {
         }
     }
 
-    suspend fun getAllLaunches(): List<Dot> {
-        return httpClient.get("https://tight-heroic-labrador.ngrok-free.app/dots").body()
+    suspend fun getAllDots(lat: Double, lng: Double): List<Dot> {
+        return httpClient.get("https://tight-heroic-labrador.ngrok-free.app/dots") {
+            url {
+                parameters.append("lat", lat.toString())
+                parameters.append("lng", lng.toString())
+            }
+        }.body()
     }
 
     suspend fun createNewDot(dot: Dot): HttpResponse {

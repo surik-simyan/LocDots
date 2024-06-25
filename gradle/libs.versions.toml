@@ -23,8 +23,7 @@ koinComposeMultiplatform = "1.2.0-alpha3"
 serialization = "1.7.0-RC"
 datetime = "0.6.0"
 mongodb = "5.1.0"
-moko-permissions = "0.18.0"
-moko-geo = "0.6.0"
+compass = "1.0.0"
 
 [libraries]
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
@@ -60,8 +59,9 @@ ktor-server-data-conversion = { module = "io.ktor:ktor-server-data-conversion", 
 ktor-server-tests = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor" }
 mongodb-bson = { module = "org.mongodb:bson-kotlinx", version.ref = "mongodb" }
 mongodb-driver-kotlin = { module = "org.mongodb:mongodb-driver-kotlin-coroutine", version.ref = "mongodb" }
-moko-permissions = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
-moko-geo = { module = "dev.icerock.moko:geo-compose", version.ref = "moko-geo" }
+compass-geolocation = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
+compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
+compass-permissions-mobile = { module = "dev.jordond.compass:permissions-mobile", version.ref = "compass" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
