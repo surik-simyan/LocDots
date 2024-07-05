@@ -53,8 +53,9 @@ fun Application.module() {
         get("/dots") {
             val lat = call.request.queryParameters["lat"]?.toDouble()
             val lng = call.request.queryParameters["lng"]?.toDouble()
+            val isDescending = call.request.queryParameters["isDescending"]?.toBoolean()
             if (lat != null && lng != null) {
-                val dots = repository.getAll(lat, lng)
+                val dots = repository.getAll(lat, lng, isDescending ?: false)
                 call.respond(dots)
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Failed to retrieve current location.")

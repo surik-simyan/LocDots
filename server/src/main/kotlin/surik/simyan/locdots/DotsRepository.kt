@@ -7,5 +7,10 @@ interface DotsRepository {
     suspend fun createIndex(): Unit
 
     suspend fun insertOne(dot: Dot): BsonValue?
-    suspend fun getAll(lat: Double, lng: Double): List<Dot>
+    suspend fun getAll(lat: Double, lng: Double, isDescending: Boolean): List<Dot>
+
+    companion object {
+        const val DOTS_COLLECTION = "dots"
+        const val COORDINATES_FIELD = "coordinates"
+    }
 }

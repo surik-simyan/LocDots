@@ -138,21 +138,22 @@ fun HomeScreen(navController: NavHostController) {
                                 showBottomSheet = false
                             }, sheetState = sheetState, containerColor = EerieBlack
                         ) {
-                            val clickHandle: () -> Unit = {
+                            val clickHandle: (Boolean) -> Unit = { isDescending ->
+                                viewModel.getItems(isDescending)
                                 scope.launch { sheetState.hide() }.invokeOnCompletion {
                                     if (!sheetState.isVisible) {
                                         showBottomSheet = false
                                     }
                                 }
                             }
-                            TextButton(onClick = clickHandle) {
+                            TextButton(onClick = { clickHandle(true) }) {
                                 Text(
                                     "Newest first",
                                     modifier = Modifier.fillMaxWidth(),
                                     color = Platinum
                                 )
                             }
-                            TextButton(onClick = clickHandle) {
+                            TextButton(onClick = { clickHandle(false) }) {
                                 Text(
                                     "Oldest first",
                                     modifier = Modifier.fillMaxWidth(),

@@ -28,11 +28,12 @@ class DotsApi {
         }
     }
 
-    suspend fun getAllDots(lat: Double, lng: Double): List<Dot> {
+    suspend fun getAllDots(lat: Double, lng: Double, isDescending: Boolean): List<Dot> {
         return httpClient.get("https://tight-heroic-labrador.ngrok-free.app/dots") {
             url {
                 parameters.append("lat", lat.toString())
                 parameters.append("lng", lng.toString())
+                parameters.append("isDescending", isDescending.toString())
             }
         }.body()
     }

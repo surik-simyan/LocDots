@@ -33,7 +33,7 @@ class HomeScreenViewModel(
         data class Success(val items: List<Dot>) : HomeScreenState()
     }
 
-    fun getItems() {
+    fun getItems(isDescending: Boolean = true) {
         viewModelScope.launch {
             _dots.update { HomeScreenState.Loading }
             when (val location = geolocator.current(Priority.HighAccuracy)) {
@@ -43,7 +43,8 @@ class HomeScreenViewModel(
                             HomeScreenState.Success(
                                 dotsApi.getAllDots(
                                     location.data.coordinates.latitude,
-                                    location.data.coordinates.longitude
+                                    location.data.coordinates.longitude,
+                                    isDescending
                                 )
                             )
                         }
