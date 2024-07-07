@@ -35,15 +35,10 @@ fun Application.module() {
         slf4jLogger()
         modules(org.koin.dsl.module {
             single {
-                MongoClient.create(
-                    environment.config.propertyOrNull("ktor.mongo.uri")?.getString()
-                        ?: throw RuntimeException("Failed to access MongoDB URI.")
-                )
+                MongoClient.create("mongodb://mongodb:27017")
             }
             single {
-                get<MongoClient>().getDatabase(
-                    environment.config.property("ktor.mongo.database").getString()
-                )
+                get<MongoClient>().getDatabase("locdots")
             }
         }, org.koin.dsl.module {
             single<DotsRepository> { DotsRepositoryImpl(get()) }

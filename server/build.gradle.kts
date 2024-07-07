@@ -12,7 +12,18 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
 
+tasks {
+    shadowJar {
+        manifest {
+            attributes(Pair("Main-Class", "surik.simyan.locdots.ApplicationKt"))
+        }
+    }
+}
+
 ktor {
+    fatJar {
+        archiveFileName.set("surik.simyan.locdots-server-$version-all.jar")
+    }
     docker {
         jreVersion.set(JavaVersion.VERSION_17)
     }
