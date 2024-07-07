@@ -10,7 +10,6 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import io.ktor.http.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import surik.simyan.locdots.BuildKonfig
@@ -23,9 +22,6 @@ class DotsApi {
                 ignoreUnknownKeys = true
                 useAlternativeNames = false
             })
-        }
-        headers {
-            "ngrok-skip-browser-warning" to "69420"
         }
     }
 
