@@ -1,4 +1,6 @@
 
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -8,6 +10,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.buildkonfig)
 }
 
 kotlin {
@@ -100,6 +103,14 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+    }
+}
+
+buildkonfig {
+    packageName = "surik.simyan.locdots"
+
+    defaultConfigs {
+        buildConfigField(STRING, "API_URL", gradleLocalProperties(rootDir).getProperty("API_URL"))
     }
 }
 

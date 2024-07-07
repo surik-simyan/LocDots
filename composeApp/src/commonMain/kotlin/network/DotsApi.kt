@@ -13,6 +13,7 @@ import io.ktor.http.contentType
 import io.ktor.http.headers
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import surik.simyan.locdots.BuildKonfig
 
 class DotsApi {
     private val httpClient = HttpClient {
@@ -29,7 +30,7 @@ class DotsApi {
     }
 
     suspend fun getAllDots(lat: Double, lng: Double, isDescending: Boolean): List<Dot> {
-        return httpClient.get("https://tight-heroic-labrador.ngrok-free.app/dots") {
+        return httpClient.get("${BuildKonfig.API_URL}/dots") {
             url {
                 parameters.append("lat", lat.toString())
                 parameters.append("lng", lng.toString())
@@ -39,7 +40,7 @@ class DotsApi {
     }
 
     suspend fun createNewDot(dot: Dot): HttpResponse {
-        return httpClient.post("https://tight-heroic-labrador.ngrok-free.app/dots") {
+        return httpClient.post("${BuildKonfig.API_URL}/dots") {
             contentType(ContentType.Application.Json)
             setBody(dot)
         }

@@ -12,6 +12,19 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")
 }
 
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_17)
+        portMappings.set(listOf(
+            io.ktor.plugin.features.DockerPortMapping(
+                80,
+                8080,
+                io.ktor.plugin.features.DockerPortMappingProtocol.TCP
+            )
+        ))
+    }
+}
+
 dependencies {
     implementation(projects.shared)
     implementation(libs.logback)
