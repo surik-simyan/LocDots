@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "surik.simyan.locdots"
-version = "1.0.0"
+version = "1.0.2"
 application {
     mainClass.set("surik.simyan.locdots.ApplicationKt")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=${extra["io.ktor.development"] ?: "false"}")

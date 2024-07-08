@@ -1,0 +1,4 @@
+localhost:443 {
+    reverse_proxy ktor:8080
+    tls internal
+}

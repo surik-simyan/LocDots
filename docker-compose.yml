@@ -13,8 +13,8 @@ services:
       - mongodb:/data/db
 
   ktor:
-    build: .
-    image: ssimyan/locdots:1.0.0
+    build: ./server
+    image: ssimyan/locdots:1.0.2
     platform: linux/amd64
     restart: always
     container_name: "locdots-server-container"
@@ -29,5 +29,26 @@ services:
     depends_on:
       - mongodb
 
+  caddy:
+    image: caddy:latest
+    container_name: caddy-container
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./server/Caddyfile:/etc/caddy/Caddyfile
+      - ./static:/code/static
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - ktor
+
+networks:
+  caddy:
+    external: true
+
 volumes:
   mongodb: {}
+  caddy_data:
+  caddy_config:
