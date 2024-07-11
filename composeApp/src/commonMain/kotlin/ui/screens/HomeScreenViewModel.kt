@@ -3,6 +3,7 @@ package ui.screens
 import Dot
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import dev.jordond.compass.Priority
 import dev.jordond.compass.geolocation.Geolocator
 import dev.jordond.compass.geolocation.GeolocatorResult
@@ -49,15 +50,18 @@ class HomeScreenViewModel(
                             )
                         }
                     } catch (e: Exception) {
+                        Logger.e(e.message.toString(), e)
                         _dots.update { HomeScreenState.Error(e.toString()) }
                     }
                 }
 
                 is GeolocatorResult.PermissionError -> {
+                    Logger.e("PermissionError")
                     _dots.update { HomeScreenState.Error("Please grant location permission") }
                 }
 
                 else -> {
+                    Logger.e(location.toString())
                     _dots.update { HomeScreenState.Error("Something went wrong") }
                 }
             }

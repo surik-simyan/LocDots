@@ -65,6 +65,7 @@ kotlin {
             implementation(libs.compass.geolocation)
             implementation(libs.compass.geolocation.mobile)
             implementation(libs.compass.permissions.mobile)
+            implementation(libs.touchlab.kermit)
         }
     }
 }

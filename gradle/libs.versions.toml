@@ -25,6 +25,7 @@ datetime = "0.6.0"
 mongodb = "5.1.0"
 compass = "1.0.0"
 buildkonfig = "0.15.1"
+kermit = "2.0.4"
 
 [libraries]
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
@@ -63,6 +64,7 @@ mongodb-driver-kotlin = { module = "org.mongodb:mongodb-driver-kotlin-coroutine"
 compass-geolocation = { module = "dev.jordond.compass:geolocation", version.ref = "compass" }
 compass-geolocation-mobile = { module = "dev.jordond.compass:geolocation-mobile", version.ref = "compass" }
 compass-permissions-mobile = { module = "dev.jordond.compass:permissions-mobile", version.ref = "compass" }
+touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
