@@ -12,16 +12,16 @@ services:
     volumes:
       - mongodb:/data/db
 
-  ktor:
+  locdots:
     build: ./server
-    image: ssimyan/locdots:1.0.2
+    image: ssimyan/locdots:1.0.4
     platform: linux/amd64
     restart: always
     container_name: locdots-server-container
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
-      PORT: 8080
+      PORT: 8081
       MONGODB_HOST: mongodb
       MONGODB_URI: mongodb://mongodb:27017
       DB_NAME: locdots

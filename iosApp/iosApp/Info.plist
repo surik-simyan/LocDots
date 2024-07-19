@@ -46,14 +46,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>Add a description for why you need this permission</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Add a description for why you need this permission</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
 </dict>
 </plist>
