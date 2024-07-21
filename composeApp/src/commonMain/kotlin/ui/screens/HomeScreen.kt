@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,10 +20,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import koinViewModel
-import kotlinx.coroutines.launch
 import ui.EerieBlack
 import ui.Gray
 import ui.Platinum
@@ -130,36 +126,6 @@ fun HomeScreen(navController: NavHostController) {
                     ) {
                         items(result.items) {
                             MessageCard(it)
-                        }
-                    }
-                    if (showBottomSheet) {
-                        ModalBottomSheet(
-                            onDismissRequest = {
-                                showBottomSheet = false
-                            }, sheetState = sheetState, containerColor = EerieBlack
-                        ) {
-                            val clickHandle: (Boolean) -> Unit = { isDescending ->
-                                viewModel.getItems(isDescending)
-                                scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                    if (!sheetState.isVisible) {
-                                        showBottomSheet = false
-                                    }
-                                }
-                            }
-                            TextButton(onClick = { clickHandle(true) }) {
-                                Text(
-                                    "Newest first",
-                                    modifier = Modifier.fillMaxWidth(),
-                                    color = Platinum
-                                )
-                            }
-                            TextButton(onClick = { clickHandle(false) }) {
-                                Text(
-                                    "Oldest first",
-                                    modifier = Modifier.fillMaxWidth(),
-                                    color = Platinum
-                                )
-                            }
                         }
                     }
                 }

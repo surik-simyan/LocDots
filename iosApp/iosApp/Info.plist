@@ -46,5 +46,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Need location to get items within range of 5km</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Need location to get items within range of 5km</string>
 </dict>
 </plist>
