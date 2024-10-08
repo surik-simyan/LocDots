@@ -1,4 +1,4 @@
-rootProject.name = "LocDots"
+rootProject.name = "Locdots"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
