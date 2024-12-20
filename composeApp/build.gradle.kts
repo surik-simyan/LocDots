@@ -111,7 +111,8 @@ buildkonfig {
     packageName = "surik.simyan.locdots"
 
     defaultConfigs {
-        buildConfigField(STRING, "API_URL", gradleLocalProperties(rootDir).getProperty("API_URL"))
+        buildConfigField(STRING, "API_URL", gradleLocalProperties(rootDir, providers).getProperty("API_URL"))
     }
+
 }
 
