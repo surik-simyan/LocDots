@@ -1,6 +1,5 @@
 package surik.simyan.locdots
 
-import Dot
 import com.mongodb.MongoException
 import com.mongodb.client.model.Filters.nearSphere
 import com.mongodb.client.model.Indexes
@@ -15,6 +14,8 @@ import kotlinx.coroutines.launch
 import org.bson.BsonValue
 import surik.simyan.locdots.DotsRepository.Companion.COORDINATES_FIELD
 import surik.simyan.locdots.DotsRepository.Companion.DOTS_COLLECTION
+import surik.simyan.locdots.shared.data.Dot
+import surik.simyan.locdots.shared.data.DotSort
 
 class DotsRepositoryImpl(
     private val mongoDatabase: MongoDatabase
@@ -47,16 +48,15 @@ class DotsRepositoryImpl(
     override suspend fun getAll(
         lat: Double,
         lng: Double,
-        isDescending: Boolean
+        sortingType: DotSort
     ): List<Dot> {
-        return mongoDatabase.getCollection<Dot>(DOTS_COLLECTION).find(
+        val dotsInRange = mongoDatabase.getCollection<Dot>(DOTS_COLLECTION).find(
             nearSphere(COORDINATES_FIELD, Point(Position(lng, lat)), 5000.0, null)
-        ).sort(
-            if (isDescending) {
-                Sorts.descending(Dot::timestamp.name)
-            } else {
-                Sorts.ascending(Dot::timestamp.name)
-            }
-        ).toList()
+        )
+        if (sortingType == DotSort.PostDate) {
+            dotsInRange
+                .sort(Sorts.descending(Dot::timestamp.name))
+        }
+        return dotsInRange.toList()
     }
 }

@@ -14,7 +14,7 @@ services:
 
   locdots:
     build: ./server
-    image: ssimyan/locdots:1.0.4
+    image: ssimyan/locdots:1.0.5
     platform: linux/amd64
     restart: always
     container_name: locdots-server-container

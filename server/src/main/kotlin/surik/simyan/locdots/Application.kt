@@ -1,11 +1,9 @@
 package surik.simyan.locdots
 
-import Dot
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
-import io.ktor.server.application.call
 import io.ktor.server.application.install
 import io.ktor.server.netty.EngineMain
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
@@ -18,6 +16,8 @@ import kotlinx.serialization.json.Json
 import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
+import surik.simyan.locdots.shared.data.Dot
+import surik.simyan.locdots.shared.data.DotSort
 
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
@@ -48,9 +48,9 @@ fun Application.module() {
         get("/dots") {
             val lat = call.request.queryParameters["lat"]?.toDouble()
             val lng = call.request.queryParameters["lng"]?.toDouble()
-            val isDescending = call.request.queryParameters["isDescending"]?.toBoolean()
+            val sortingType = call.request.queryParameters["sortingType"].toDotSort()
             if (lat != null && lng != null) {
-                val dots = repository.getAll(lat, lng, isDescending ?: false)
+                val dots = repository.getAll(lat, lng, sortingType)
                 call.respond(dots)
             } else {
                 call.respond(HttpStatusCode.BadRequest, "Failed to retrieve current location.")
@@ -65,4 +65,8 @@ fun Application.module() {
             }
         }
     }
+}
+
+private fun String?.toDotSort() : DotSort {
+    return DotSort.entries.firstOrNull { it.value == this } ?: DotSort.PostDate
 }
